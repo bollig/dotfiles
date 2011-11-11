@@ -1,0 +1,5 @@
+[user]
+	name = Evan Bollig
+	email = bollig@scs.fsu.edu
+[diff]
+	tool = vimdiff
