@@ -1,0 +1,119 @@
+# Get details about the NVIDIA hardware on the system
+# Will error if no nvidia driver is installed
+function gpuinfo_nv() {
+    nvidia-xconfig --query-gpu-info
+}
+
+# Query TYPES of NVidia hardware available (remove doubles)
+function gpulist_nv() {
+    gpuinfo_nv | grep "^.[ ]Name.*:" | awk '{print $3,$4,$5}' | sort -u
+}
+
+# Query number of GPUs availble 
+function gpucount_nv() {
+    if [ $# -gt 1 ]
+    then 
+        echo "gpucount only accepts 0 or 1 argument"
+        return 5 
+    fi
+
+   if [ $# -eq 1 ]
+    then
+        INFO=`gpuinfo_nv`    
+        ERR=$?
+        echo $INFO | grep -i $1 | awk 'BEGIN {count = 0} { count += 1} END {print count}'
+        return $ERR
+    else 
+        INFO=`gpuinfo_nv`    
+        ERR=$?
+        echo $INFO | grep "GPUs: [1-9]" | awk '{total += $4} END {print total}'
+        return $ERR
+    fi
+}
+
+# Details of ATI hardware on the system
+# will error if no ati hardware is installed
+function gpuinfo_ati() {
+    export DISPLAY=:0
+    aticonfig --list-adapters 
+    echo "END: $?"
+    return 55
+}
+
+# Query number of GPUs availble 
+function gpucount_ati() {
+    if [ $# -gt 1 ]
+    then 
+        echo "gpucount only accepts 0 or 1 argument"
+        return 5 
+    fi
+    
+    if [ $# -eq 1 ]
+    then
+        INFO=`gpuinfo_ati`    
+        ERR=$?
+        echo $INFO | grep -i $1 | awk 'BEGIN {count = 0} { count += 1} END {print count}'
+        return $ERR
+    else 
+        INFO=`gpuinfo_ati`    
+        ERR=$?
+        echo $INFO | grep "[0-9]. " | awk 'BEGIN {count = 0} {count += 1} END {print count}'
+        echo "$INFO"
+        return $ERR
+    fi
+}
+
+
+# General info about GPUs (either NVidia or ATI)
+# Assumes NVidia is primary type in lab and will test for existence. 
+# if no nvidia found then it tests ATI
+function gpuinfo() {
+    NV_INFO=`gpuinfo_nv`
+    NVMISSING=$? 
+    ATI_INFO=`gpuinfo_ati`
+    ATIMISSING=$? 
+    
+    if [ ${NVMISSING} -eq 1 ] && [ ${ATIMISSING} -eq 1 ]
+    then 
+        echo "No NVidia or ATI GPUs were found on this system! Or nvidia-xconfig and/or aticonfig are not installed. Check with your system admin for details"
+        return 10
+    fi
+
+    if [ ${NVMISSING} -eq 0 ] 
+    then 
+        echo "$NV_INFO"
+    fi
+
+    if [ ${ATIMISSING} -eq 0 ] 
+    then 
+        echo "$ATI_INFO"
+    fi
+}
+
+function gpucount() {
+    NV_INFO=`gpucount_nv $@ 2>&1`
+    NVMISSING=$? 
+    ATI_INFO=`gpucount_ati $@ 2>&1`
+    ATIMISSING=$? 
+    
+    if [ ${NVMISSING} -eq 5 ] && [ ${ATIMISSING} -eq 5 ]
+    then 
+        echo "$NV_INFO"
+    fi
+
+    if [ ${NVMISSING} -eq 1 ] && [ ${ATIMISSING} -eq 1 ]
+    then 
+        echo "No NVidia or ATI GPUs were found on this system! Or nvidia-xconfig and/or aticonfig are not installed. Check with your system admin for details"
+        return 5
+    fi
+
+    if [ ${NVMISSING} -eq 0 ] 
+    then 
+        echo "$NV_INFO"
+    fi
+
+    if [ ${ATIMISSING} -eq 0 ] 
+    then 
+        echo "$ATI_INFO"
+    fi
+}
