@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/panfs/panasas1/users/efb06/RBF.framework/src/cl_kernels'
+let g:netrw_dirhist_2='/panfs/panasas1/users/efb06/RBF.framework/external/nist'
+let g:netrw_dirhist_3='/panfs/panasas1/users/efb06/RBF.framework/tests/experiments/heat_regulargrid_2d'
+let g:netrw_dirhist_4='/Users/bollig/RBF.framework/src/rbffd/rbfs'
+let g:netrw_dirhist_5='/Users/bollig/RBF.framework/tests/experiments/heat_regulargrid_2d'
+let g:netrw_dirhist_6='/Users/bollig/RBF.framework/tests/experiments/heat_regulargrid_2d/CMakeFiles'
