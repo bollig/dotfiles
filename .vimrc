@@ -6,6 +6,7 @@ if has("gui_running")
 else
   " This is console Vim
   colorscheme ir_black
+  set ttymouse=xterm "
 "  set nuw=6
 endif
 
@@ -55,12 +56,9 @@ set mouse=a
 "au BufNewFile,BufRead *.cu   setf cu
 "au fileType cu source cpp.vim
 
-
-" OpenCL 
-"au BufNewFile,BufRead *.cl set filetype=cpp
-"au BufNewFile,BufRead *.cl set filetype=opencl 
-"autocmd FileType cl source ~/.vim/syntax/opencl.vim
+au BufNewFile,BufRead *.cl set filetype=cpp
 au BufNewFile,BufRead *.tex set number
+" au FileType c,cl,cpp source ~/.vim/opencl.vim
 
 
 "---------------------
@@ -127,3 +125,4 @@ au VimLeave * :call UpdateSession()
 map <leader>m :call MakeSession()<CR>
 
 source ~/.vim/custom_mswin.vim
+
