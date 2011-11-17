@@ -2,10 +2,10 @@
 #export PS1="\[\033[33m\](\t) \[\033[0m\]\h:\[\033[32m\]\w:\[\033[0m\] "
 
 # Show the git branch when we're in a repo. And always show host and dir info. 
-YELLOW="\[\033[0;33m\]"
-GREEN="\[\033[0;32m\]"
-WHITE="\[\033[0;0m\]"
-PS1="${YELLOW}\$(__git_ps1) ${WHITE}\h:${GREEN}\w:${WHITE} "
+#YELLOW="\[\033[0;33m\]"
+#GREEN="\[\033[0;32m\]"
+#WHITE="\[\033[0;0m\]"
+#PS1="${YELLOW}\$(__git_ps1) ${WHITE}\h:${GREEN}\w:${WHITE} "
 
 
 export EDITOR=vim
@@ -73,6 +73,10 @@ alias share_screen="screen -x -R"
 source ~/research/nvidia/NVIDIA_CUDA_TOOLKIT_4.0/bin/cudaEnv.sh
 source ~/.gpu_macros
 
+# Get bash completion and enable git repo info in PS1
+source /etc/bash_completion.d/git 
+. ~/.bash_prompt
+
 export PATH=$PATH:~/local/mendeley/bin
 case $HOSTNAME in
     bones|spock|uhura|worf|kirk|laforge|troi)
@@ -96,8 +100,6 @@ case $HOSTNAME in
        		source /usr/common/classes/gerlebacher/setupClassEnv.sh
 		;;
     pamd*)
-        # Get bash completion and enable git repo info in PS1
-        source /etc/bash_completion.d/git 
         if [ -z "${WINDOW}" ]
         then 
             export SCREEN_RESUMED=1
