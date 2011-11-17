@@ -42,10 +42,10 @@ complete -o default -W "${SSH_COMPLETE[*]}" ssh
 
 
 # Show the git branch when we're in a repo. And always show host and dir info. 
-YELLOW="\[\033[0;33m\]"
-GREEN="\[\033[0;32m\]"
-WHITE="\[\033[0;0m\]"
-PS1="${YELLOW}\$(__git_ps1) ${WHITE}\h:${GREEN}\w:${WHITE} "
+#YELLOW="\[\033[0;33m\]"
+#GREEN="\[\033[0;32m\]"
+#WHITE="\[\033[0;0m\]"
+#PS1="${YELLOW}\$(__git_ps1) ${WHITE}\h:${GREEN}\w:${WHITE} "
 
 SSH_COMPLETE=( $(cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | egrep -v [0123456789]) )
 complete -o default -W "${SSH_COMPLETE[*]}" ssh
@@ -72,3 +72,4 @@ export PATH=$NCARG_ROOT/bin:$PATH
 
 #export PROMPT_COMMAND="history -n; history -a"
 source ~/.git-completion.bash
+. ~/.bash_prompt
