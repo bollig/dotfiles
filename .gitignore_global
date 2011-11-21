@@ -35,9 +35,15 @@
 # OS generated files #
 ######################
 .DS_Store?
+.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# MATLAB Mex generated binaries
+###############################
+*.bin
+*.mexmaci
 
 
 # TexShop related #
